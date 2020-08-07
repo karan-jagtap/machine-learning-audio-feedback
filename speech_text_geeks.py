@@ -11,10 +11,11 @@ from pydub.silence import split_on_silence
 def silence_based_conversion(path):
     # open the audio file stored in
     # the local system as a wav file.
+    song = None
     try:
         song = AudioSegment.from_wav(path)
         if song:
-            print(f'Song Type --> {type(song)}')
+            print(f'Song Type --> {type(song)}, len ==> {len(song)} silence ==> {song.dBFS}')
         else:
             print('AudioSegment did not return a song file')
     except:
@@ -31,11 +32,11 @@ def silence_based_conversion(path):
                                   # or 500 ms. adjust this value based on user
                                   # requirement. if the speaker stays silent for
                                   # longer, increase this value. else, decrease it.
-                                  min_silence_len=500,
+                                  min_silence_len=1000,
 
                                   # consider it silent if quieter than -16 dBFS
                                   # adjust this per requirement
-                                  silence_thresh=-16
+                                  silence_thresh=-30
                                   )
     except:
         print('Exception in Chunks')
@@ -88,7 +89,7 @@ def silence_based_conversion(path):
         with sr.AudioFile(file) as source:
             # remove this if it is not working
             # correctly.
-            r.adjust_for_ambient_noise(source)
+            # r.adjust_for_ambient_noise(source)
             audio_listened = r.listen(source)
 
         try:
