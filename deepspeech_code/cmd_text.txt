@@ -1,0 +1,1 @@
+deepspeech --model deepspeech-0.7.4-models.pbmm --scorer deepspeech-0.7.4-models.scorer --audio sample_male_wav.wav
